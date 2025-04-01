@@ -5,27 +5,30 @@ import BarChartBox from "../charts/BarChart";
 import AreaChartBox from "../charts/AreaChart";
 import PieChartComponent from "../charts/PieChart";
 import BoxImg from "../boxes/BoxImg";
-
-const chartComponents = [
-  // {
-  //   id: "line",
-  //   component: <LineChartBox />,
-  //   width: 370,
-  //   height: 300,
-  //   name: "LineChart",
-  // },
-];
+import { message } from "antd";
 
 export const ContextProvider = createContext();
 
 export default function ContextApi({ children }) {
-  const [isHaveBox, setIsHaveBox] = useState([]);
   const [boxValue, setboxValue] = useState("");
   const [clickCounts, setClickCounts] = useState({});
-  const [charts, setCharts] = useState(chartComponents);
+  const [charts, setCharts] = useState([]);
 
+  // Delete qismi filter qilamiz
+  // console.log(charts[0]?.id);
+  const handleFilterEl = async (id) => {
+    try {
+      const filterNewCharts = charts.filter((item) => item.id !== id);
+      setCharts(filterNewCharts);
+      message.success("Muvaffaqiyatli o'chirildi");
+    } catch (error) {
+      message.error("Box o'chirilmadi yana urinib ko'ring");
+    }
+  };
+
+  // bu yerda qo'shilish kerak bo'lgan component objectlari
   const imgComponent = {
-    id: charts.length,
+    id: `${charts.length}img`,
     component: <BoxImg />,
     width: 370,
     height: 300,
@@ -91,14 +94,13 @@ export default function ContextApi({ children }) {
   return (
     <ContextProvider.Provider
       value={{
-        isHaveBox,
-        setIsHaveBox,
         boxValue,
         setboxValue,
         charts,
         setCharts,
         clickCounts,
         setClickCounts,
+        handleFilterEl,
       }}
     >
       {children}

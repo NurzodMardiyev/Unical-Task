@@ -32,8 +32,7 @@ const treeData = [
 ];
 export default function Header() {
   // const [value, setValue] = useState();
-  const { isHaveBox, setboxValue, setClickCounts } =
-    useContext(ContextProvider);
+  const { setboxValue, setClickCounts } = useContext(ContextProvider);
 
   const onChange = (newValue) => {
     console.log(newValue);

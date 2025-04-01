@@ -5,6 +5,8 @@ const { Dragger } = Upload;
 
 export default function BoxImg() {
   const [imagePreview, setImagePreview] = useState(null);
+
+  // bu base64ga o'tkazadi
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -14,12 +16,13 @@ export default function BoxImg() {
     });
   };
 
+  // file ko'rinishida base64 farmatiga o'tkazib statega joylab imgda ishlatamiz
   const handleUpload = async (info) => {
     const { file } = info;
 
-    // Fayl hajmini tekshirish (max 5MB)
+    // Fayl hajmini tekshirish bu sayt tezligi uchun ishlaydi
     if (file.size > 4 * 1024 * 1024) {
-      message.error("Rasm hajmi 2MB dan kichik bo'lishi kerak!");
+      message.error("Rasm hajmi 4MB dan kichik bo'lishi kerak!");
       return;
     }
     try {

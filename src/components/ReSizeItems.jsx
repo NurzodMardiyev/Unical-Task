@@ -2,10 +2,14 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ResizableBox } from "react-resizable";
 import "react-resizable/css/styles.css";
+import { IoTrash } from "react-icons/io5";
+import { useContext } from "react";
+import { ContextProvider } from "./context/ContextApi";
 
 function ReSizeItems({ chart, onResize }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: chart.id });
+  const { handleFilterEl } = useContext(ContextProvider);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -32,13 +36,21 @@ function ReSizeItems({ chart, onResize }) {
             e.stopPropagation();
           }}
         >
-          <div
-            {...listeners}
-            className="flex w-full justify-center items-center cursor-grab"
-          >
-            <span className="flex text-center  px-10 py-1 border">
-              {chart.name}
-            </span>
+          <div className="w-full flex relative">
+            <div
+              {...listeners}
+              className="flex w-full justify-center items-center cursor-grab"
+            >
+              <span className="flex text-center  px-10 py-1 border">
+                {chart.name}
+              </span>
+            </div>
+            <div className="absolute right-2 cursor-pointer top-1">
+              <IoTrash
+                className="text-[24px]"
+                onClick={() => handleFilterEl(chart.id)}
+              />
+            </div>
           </div>
           {chart.component}
         </div>
